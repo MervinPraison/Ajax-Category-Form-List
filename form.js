@@ -1,16 +1,16 @@
 jQuery(document).ready(function($) {
 
-jQuery('#ajax-contact-form').submit(function(e){
+jQuery('#ajax-form-list').submit(function(e){
     var cat_name = jQuery("select#cat_name option:selected").val();
     var post_id = jQuery("#post_id").val();
     jQuery.ajax({ 
-         url: catform.ajax_url,         
+         url: catformlist.ajax_url,         
 		 type: 'post',
          data: {
-         		action: 'contact_form', 
+         		action: 'form_list', 
          		cat_name:cat_name,
          		post_id:post_id,
-         		security: catform.ajax_nonce
+         		security: catformlist.ajax_nonce
          },
          success: function(response) {
               jQuery('#cat-form-output').html( response ); //should print out the name since you sent it along
@@ -20,6 +20,27 @@ jQuery('#ajax-contact-form').submit(function(e){
 
     return false;
 
+});
+
+
+jQuery( document ).on( 'click', '#cat-list-button-id', function() {
+    var post_id = jQuery(this).data('id-list'); 
+    var category_name = jQuery(this).data('category-list');
+    jQuery.ajax({
+        url : catformlist.ajax_url,
+        type : 'post',
+        data : {
+            action : 'form_list',
+            post_id : post_id,
+            category_name : category_name,
+            security: catformlist.ajax_nonce
+        },
+        success : function( response ) {
+            jQuery('#cat-display').html( response );
+        }
+    });
+
+    return false;
 });
 
 });
