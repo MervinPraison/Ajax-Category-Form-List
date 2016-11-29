@@ -16,10 +16,64 @@ jQuery( document ).on( 'click', '#cat-list-button-id', function() {
         success : function( response ) {
             jQuery('#cat-display').html( response );
 
-                //jQuery(document).ready(function($) {
-                    jQuery('#ajax-form-list').submit(function(e){
-                    var cat_name = jQuery("select#cat_name option:selected").val();
-                    var post_id = jQuery("#post_id").val();
+                jQuery(document).ready(function($) {
+                    jQuery('button.btn').click(function() {
+
+                    var submit_value = jQuery(this).attr("value");
+            
+                    var ajax_form_list = "#ajax-form-list-"+submit_value;
+
+                    jQuery(ajax_form_list).submit(function(e){
+                    var cat_name = jQuery("select#cat_name-"+submit_value+" option:selected").val();
+                    var post_id = jQuery("#post_id-"+submit_value).val();
+                    jQuery.ajax({
+                                 url: catformlist.ajax_url,
+                                 type: 'post',
+                                 data:  {
+                                        action: 'form_list',
+                                        cat_name:cat_name,
+                                        post_id:post_id,
+                                        security: catformlist.ajax_nonce,
+                                        submit_value: submit_value
+                                        },
+                                 success: function(response) {
+                                            jQuery('#cat-form-output-'+submit_value).html( response ); //should print out the name since you sent it along
+                                            //updatevalue();
+
+                                        }
+                                });
+
+                        return false;
+
+                        });
+
+                    });
+                });
+            },
+
+        error:function(exception){alert('Exeption:'+exception);}
+
+    });
+
+    return false;
+});
+
+
+
+});
+
+
+//function updatevalue() {
+
+/*
+                jQuery(document).ready(function($) {
+                    var submit_value = jQuery('button.btn').attr("value");
+            
+                    var ajax_form_list = "#ajax-form-list-"+submit_value;
+
+                    jQuery(ajax_form_list).submit(function(e){
+                    var cat_name = jQuery("select#cat_name-"+submit_value+" option:selected").val();
+                    var post_id = jQuery("#post_id-"+submit_value).val();
                     jQuery.ajax({
                          url: catformlist.ajax_url,
                          type: 'post',
@@ -27,24 +81,54 @@ jQuery( document ).on( 'click', '#cat-list-button-id', function() {
                                 action: 'form_list',
                                 cat_name:cat_name,
                                 post_id:post_id,
-                                security: catformlist.ajax_nonce
+                                security: catformlist.ajax_nonce,
+                                submit_value : submit_value
                          },
                          success: function(response) {
-                              jQuery('#cat-form-output').html( response ); //should print out the name since you sent it along
+                              jQuery('#cat-form-output-'+submit_value).html( response ); //should print out the name since you sent it along
 
-                        }
+                         },
+                         error:function(exception){alert('Exeption:'+exception);}
                     });
 
                     return false;
 
                     });
 
-                 //});
-        }
-    });
+                 });*/
 
-    return false;
-});
+//}
 
 
-});
+/*
+
+                jQuery(document).ready(function($) {
+                    var submit_value = jQuery('button.btn').attr("value");
+            
+                    var ajax_form_list = "#ajax-form-list-"+submit_value;
+
+                    jQuery(ajax_form_list).submit(function(e){
+                    var cat_name = jQuery("select#cat_name-"+submit_value+" option:selected").val();
+                    var post_id = jQuery("#post_id-"+submit_value).val();
+                    jQuery.ajax({
+                         url: catformlist.ajax_url,
+                         type: 'post',
+                         data: {
+                                action: 'form_list',
+                                cat_name:cat_name,
+                                post_id:post_id,
+                                security: catformlist.ajax_nonce,
+                                submit_value : submit_value
+                         },
+                         success: function(response) {
+                              jQuery('#cat-form-output-'+submit_value).html( response ); //should print out the name since you sent it along
+
+                         },
+                         error:function(exception){alert('Exeption:'+exception);}
+                    });
+
+                    return false;
+
+                    });
+
+                 });*/
