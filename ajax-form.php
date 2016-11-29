@@ -134,7 +134,7 @@ function form_list()
     	!wp_verify_nonce( $_REQUEST['security'], 'name_of_nonce_field')
     	) {
 
-        exit('The form is not valid'); 
+        //exit('The form is not valid'); 
     }
  
 
@@ -163,16 +163,16 @@ function ajax_form_category_single($args){
 			'orderby'            => 'ID',
 			'order'              => 'ASC',
 			'show_count'         => 0,
-			'hide_empty'         => 0,
+			'hide_empty'         => 1,
 			'child_of'           => 0,
 			'exclude'            => '',
 			'include'            => '',
 			'echo'               => 0,
 			'selected'           => $cat_id,
 			'hierarchical'       => 0,
-			'name'               => 'cat_name',
-			'id'                 => 'cat_name',
-			'class'              => 'cat_name',
+			'name'               => 'cat_name-'.$post_id,
+			'id'                 => 'cat_name-'.$post_id,
+			'class'              => 'cat_name-'.$post_id,
 			'depth'              => 0,
 			'tab_index'          => 0,
 			'taxonomy'           => 'category',
@@ -182,14 +182,15 @@ function ajax_form_category_single($args){
 		
 		// /aah/wp-admin/admin-ajax.php 
 		//$title = get_the_title();
-		$value ='<td><form class="form" method="post" id="ajax-form-list" action="/aah/wp-admin/admin-ajax.php ">
+		$value ='<td><form class="form" method="post" id="ajax-form-list-'.$post_id.'" action="/aah/wp-admin/admin-ajax.php ">
 		<input type="hidden" name="action" value="form_list">
-		<input type="hidden" name="post_id" id="post_id" value="'.$post_id.'">';
+		<input type="hidden" name="post_id" id="post_id-'.$post_id.'" value="'.$post_id.'">
+		<input type="hidden" name="cat_id" id="cat_id-'.$post_id.'" value="'.$cat_id.'">';
 		$value .= wp_dropdown_categories($args);
 		//$value .= wp_nonce_field( 'contact_form_nonce_2', 'name_of_nonce_field' );
-		$value .= '<button type="submit" class="btn">Submit</button></form></td><td>';
+		$value .= '<button type="submit" class="btn" value="'.$post_id.'" >Submit</button></form></td><td>';
 
-		$value .= '<span id="cat-form-output">'.$term->name.'</span></td>';
+		$value .= '<span id="cat-form-output-'.$post_id.'">'.$term->name.'</span></td>';
 		return $value;
 
 
